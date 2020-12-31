@@ -61,7 +61,7 @@ public class DBUtils {
     }
 
     public static List<MonAn> layDanhSachMonAn(Connection conn) throws SQLException{
-        String sql = "Select * from MONAN where status=1";
+        String sql = "Select * from MONAN where status=1 ORDER BY idMonAn asc";
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
         List<MonAn> listMonAn = new ArrayList<MonAn>();

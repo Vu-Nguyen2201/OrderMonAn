@@ -28,6 +28,9 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 <!-- highcharts css -->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
 <link rel="stylesheet" href="css/highcharts.css">
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
@@ -114,11 +117,11 @@
                                 <figure class="highcharts-figure">
                                     <div id="container"></div>
                                     <p class="highcharts-description">
-                                        Basic line chart showing trends in a dataset. This chart includes the
-                                        <code>series-label</code> module, which adds a label to each line for
-                                        enhanced readability.
                                     </p>
                                 </figure>
+                                <div style="float: right; width: 200px;margin: 20px 800px">
+                                    <a class="main_bt_border btnThongKe" href="#">Thống kê</a>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -136,14 +139,10 @@
 </div>
 <div class="overlay"></div>
 <!-- Javascript files-->
-<script src="js/jquery.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/custom.js"></script>
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-
-<script src="js/jquery-3.0.0.min.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function() {
@@ -163,76 +162,6 @@
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
     });
-    Highcharts.chart('container', {
-
-        title: {
-            text: 'Solar Employment Growth by Sector, 2010-2016'
-        },
-
-        subtitle: {
-            text: 'Source: thesolarfoundation.com'
-        },
-
-        yAxis: {
-            title: {
-                text: 'Number of Employees'
-            }
-        },
-
-        xAxis: {
-            accessibility: {
-                rangeDescription: 'Range: 2010 to 2017'
-            }
-        },
-
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false
-                },
-                pointStart: 2010
-            }
-        },
-
-        series: [{
-            name: 'Installation',
-            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-        }, {
-            name: 'Manufacturing',
-            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-        }, {
-            name: 'Sales & Distribution',
-            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-        }, {
-            name: 'Project Development',
-            data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-        }, {
-            name: 'Other',
-            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-        }],
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
-        }
-
-    });
 </script>
 
 <style>
@@ -249,23 +178,68 @@
 
 <script>
     $(document).ready(function() {
-        $('.main_bt_border').click(function(){
-            idMonAn = $(this).attr('data-idMonAn');
-            soluong = $(this).attr('data-soluong');
-            dongia = $(this).attr('data-dongia');
-            // alert("idMonAn, soluong, dongia: "+idMonAn+" "+soluong+" "+dongia);
-            $.get("ThemGioHang",
-            {
-                'type':'them',
-                'idMonAn': idMonAn,
-                'soluong': soluong,
-                'dongia': dongia,
+        var chart = Highcharts.chart('container', {
+            chart: {
+                type: 'column'
             },
-            function(data,status){
-                alert("Data: " + data + "\nStatus: " + status);
+            title: {
+                text: 'Số lượng món ăn còn'
+            },
+            subtitle: {
+                text: 'Lấy từ bảng món ăn'
+            },
+            xAxis: {
+                // categories: ["Gà không lối thoát","Heo cháy trên rừng","Ngưu ma vương hút thuốc","Gà cãi nước sôi","gà","gà 2","Gà ác tiềm thuốc bắc"],//listTen,
+                category: [],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Số lượng'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} phần</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Số lượng món ăn',
+                // data: [10,10,10,10,1,1,10],//listSoLuong
+                data: [],
+            }]
+        });
+        $(".btnThongKe").click(function () {
+            $.ajax({
+                url: 'LayTenMonAn',
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    chart.xAxis[0].update({categories: data});
+                }
+            });
+            $.ajax({
+                url: 'SoLuongMonAn',
+                type: 'GET',
+                dataType: "json",
+                success: function (data,status) {
+                    var res = data.map(Number);
+                    chart.series[0].update({data:res})
+                }
             });
         });
-    })
+    });
+
 </script>
 
 </body>

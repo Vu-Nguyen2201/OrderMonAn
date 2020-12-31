@@ -1,6 +1,10 @@
 package servlet;
 
+import beans.MonAn;
 import beans.User;
+import com.google.gson.Gson;
+import utils.DBUtils;
+import utils.MyUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,14 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-@WebServlet(name="Admin",urlPatterns= {"/Admin"})
-public class AdminServlet extends HttpServlet {
+@WebServlet(name="SoLuongMonAn",urlPatterns= {"/SoLuongMonAn"})
+public class LaySoLuongMonAnServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Connection conn = MyUtils.getStoredConnection(request);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         request.setAttribute("user", user);
@@ -32,7 +41,22 @@ public class AdminServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/home");
             return;
         }
-        RequestDispatcher dispatcher= this.getServletContext().getRequestDispatcher("/Admin/Admin.jsp");
-        dispatcher.forward(request, response);
+        List<MonAn> listMonAn = null;
+        try {
+            listMonAn = DBUtils.layDanhSachMonAn(conn);
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        ArrayList<String> listSoLuong = new ArrayList<String>();
+        String soluong = "";
+        for(int i = 0; i < listMonAn.size(); i++){
+            soluong = String.valueOf(listMonAn.get(i).getSoluong());
+            listSoLuong.add(soluong);
+        }
+        String json = new Gson().toJson(listSoLuong);
+        System.out.println(json);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 }
