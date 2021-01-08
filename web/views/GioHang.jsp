@@ -95,6 +95,7 @@
                                     <th>Hình ảnh</th>
                                     <th>Số lượng</th>
                                     <th>Đơn giá</th>
+                                    <th>Thành tiền</th>
                                     <th>Edit</th>
                                 </tr>
                                 </thead>
@@ -104,12 +105,13 @@
                                         <tr data-idGioHang="${giohang.idGioHang}">
                                         <td>${status.count}</td>
                                         <td>${giohang.tenMonAn}</td>
-                                        <td>${giohang.linkImg}</td>
+                                        <td><img class="img-responsive" src="${giohang.linkImg}" style="width: 50px; height: 50px" alt="#" /></td>
                                         <td>${giohang.soluong}</td>
                                         <td>${giohang.dongia}</td>
+                                        <td>${giohang.thanhtien}</td>
                                         <td>
                                             <a data-soluong="1" data-idMonAn="${giohang.idMonAn}" data-dongia="${giohang.dongia}" style="color: white" href="#" class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xe145;</i></a>
-                                            <a data-soluongGioHang="${giohang.soluong}" data-soluong="-1" data-idMonAn="${giohang.idMonAn}" data-dongia="${giohang.dongia}" style="color: white" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xe15b;</i></a>
+                                            <a data-soluong="-1" data-soluongGioHang="${giohang.soluong}"  data-idMonAn="${giohang.idMonAn}" data-dongia="${giohang.dongia}" style="color: white" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xe15b;</i></a>
                                             <a data-idGioHang="${giohang.idGioHang}" style="color: white" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                         </td>
                                         </tr>

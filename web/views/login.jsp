@@ -57,6 +57,7 @@
                         <li class="active">
                             <a href="Admin">Admin</a>
                         </li>
+                        </li>
                         <li>
                             <a href="HoaDon">Hoá đơn</a>
                         </li>
@@ -90,7 +91,7 @@
                                     <input class="form-control" placeholder="Name" type="text" name="user" value="nguyena">
                                 </div>
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <input class="form-control" placeholder="Password" type="text" name="pass" value="1234">
+                                    <input class="form-control" placeholder="Password" type="password" name="pass" value="1234">
                                 </div>
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                     <button class="send" style="color:#e3d105" type="submit">Login</button>

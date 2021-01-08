@@ -94,11 +94,11 @@
                                 </div>
                                 
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <input class="form-control" placeholder="PassWord" type="text" name="password">
+                                    <input class="form-control" placeholder="PassWord" type="password" name="password">
                                 </div>
                                    
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <input class="form-control" placeholder="Confirm PassWord" type="text" name="repassword">
+                                    <input class="form-control" placeholder="Confirm PassWord" type="password" name="repassword">
                                 </div>
                                    
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
